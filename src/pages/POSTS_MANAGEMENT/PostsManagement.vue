@@ -3,5 +3,6 @@
 
 <template>
   <main>
+    POSTS MANAGEMENT PAGE
   </main>
 </template>

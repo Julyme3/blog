@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
+import TheHeader from '@/components/TheHeader.vue';
 </script>
 
 <template>
-  <RouterView />
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <TheHeader />
+  <RouterView class="container flex-grow mx-auto px-1 b-1 border-black mt-8" />
 </template>
 
 <style scoped>

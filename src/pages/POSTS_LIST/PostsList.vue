@@ -1,19 +1,34 @@
 <script setup lang="ts">
-import { usePostsStore } from '@/stores/posts'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { BaseButton } from '@/shared/ui/BaseButton';
-import {  ButtonTypesEnum } from '@/shared/ui/BaseButton/types';
-import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { usePostsStore } from '@/stores/posts'
+import { BaseButton } from '@/shared/ui/BaseButton'
+import { ButtonTypesEnum } from '@/shared/ui/BaseButton/types'
+import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import type { Post } from '@/shared/types/posts'
+import { PAGE_POST_CREATE } from '@/shared/constants'
 
+const router = useRouter()
+
+const { setCurrentPost } = usePostsStore()
 const { posts } = storeToRefs(usePostsStore())
+
+const handleEditBtn = (id: Post['id']) => {
+  const currentPost = posts.value.find((post) => post.id === id)!
+  setCurrentPost(currentPost)
+}
 </script>
 
 <template>
   <main>
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-bold">Posts</h2>
-      <BaseButton :type="ButtonTypesEnum.Primary">Create Post</BaseButton>
+      <BaseButton
+        :type="ButtonTypesEnum.Primary"
+        @click="router.push({ path: `/${PAGE_POST_CREATE}` })"
+        >Create Post</BaseButton
+      >
     </div>
     <table class="w-full text-left border-collapse border border-gray-300">
       <thead>
@@ -29,7 +44,7 @@ const { posts } = storeToRefs(usePostsStore())
           <td class="border p-4">{{ post.body }}</td>
           <td class="border p-4">
             <div class="flex gap-2">
-              <BaseButton :type="ButtonTypesEnum.Neutral">
+              <BaseButton :type="ButtonTypesEnum.Neutral" @click="handleEditBtn(post.id)">
                 <PencilSquareIcon class="w-[20px]" />
               </BaseButton>
               <BaseButton :type="ButtonTypesEnum.Neutral">

@@ -2,4 +2,4 @@ export enum ButtonTypesEnum {
   Primary = 'primary',
   Neutral = 'neutral',
 }
-export type BUTTON_TYPE = ButtonTypesEnum.Neutral | ButtonTypesEnum.Primary;
+export type ButtonType = ButtonTypesEnum.Neutral | ButtonTypesEnum.Primary;

@@ -11,10 +11,10 @@ const typeClasses = {
 </script>
 
 <script setup lang="ts">
-import { type BUTTON_TYPE } from '@/shared/ui/BaseButton/types'
+import { type ButtonType } from '@/shared/ui/BaseButton/types'
 
 defineProps<{
-  type: BUTTON_TYPE
+  type: ButtonType
 }>();
 </script>
 

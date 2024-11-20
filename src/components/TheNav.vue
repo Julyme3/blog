@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { NAV_ITEMS } from '@/shared/constants'
 import NavItem from '@/components/NavItem.vue'
 </script>

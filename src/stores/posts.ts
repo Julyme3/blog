@@ -7,12 +7,17 @@ const API_URL = 'https://jsonplaceholder.typicode.com';//import.meta.env.VUE_APP
 
 export const usePostsStore = defineStore('postsStore', () => {
   const posts = ref<Array<Post>>([]);
+  const isLoading = ref(false);
 
   async function getPosts(): Promise<Array<Post> | void> {
+    isLoading.value = true;
+
     try {
       posts.value = await axios.get(`${API_URL}/posts?_page=0&_limit=10`).then(res => res.data);
     } catch(e) {
       console.log(e);
+    } finally {
+      isLoading.value = false;
     }
   }
 

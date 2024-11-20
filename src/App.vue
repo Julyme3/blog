@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import TheHeader from '@/components/TheHeader.vue';
+
+import { usePostsStore } from '@/stores/posts';
+
+const store = usePostsStore();
+
+store.getPosts();
 </script>
 
 <template>

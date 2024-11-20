@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { PAGE_HOME } from '@/shared/constants'
 </script>
 

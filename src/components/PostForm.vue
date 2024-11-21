@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { BaseButton } from '@/shared/ui/BaseButton'
 import { ButtonTypesEnum } from '@/shared/ui/BaseButton/types'
-import { type Post, type PostUpdateDto } from '@/shared/types/posts'
+import type { Post, PostUpdateDto } from '@/shared/types/posts'
 
 const props = defineProps<{
-  post?: Post
+  post?: Post | null
 }>()
 
-const title = ref(props.post?.title ?? '')
-const body = ref(props.post?.body ?? '')
+const title = ref('')
+const body = ref('')
 
 const emit = defineEmits<{
   submit: [PostUpdateDto]
@@ -18,12 +18,18 @@ const emit = defineEmits<{
 const submit = async () => {
   emit('submit', { title: title.value, body: body.value })
 }
+
+watchEffect(() => {
+  title.value = props.post?.title ?? ''
+  body.value = props.post?.body ?? ''
+})
 </script>
 
 <template>
   <form class="flex flex-col gap-8 border-t bg-white p-4" @submit.prevent="submit">
     <div>
       <label for="title">Title</label>
+      // TODO replaced to shared/ui
       <input
         v-model="title"
         id="title"

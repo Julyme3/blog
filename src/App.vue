@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import TheHeader from '@/components/TheHeader.vue';
+import { RouterView } from 'vue-router'
+import TheHeader from '@/components/TheHeader.vue'
 
-import { usePostsStore } from '@/stores/posts';
+import { usePostsStore } from '@/stores/posts'
 
-const store = usePostsStore();
+const store = usePostsStore()
 
-store.getPosts();
+store.getPosts()
 </script>
 
 <template>
   <TheHeader />
-  <RouterView class="container flex-grow mx-auto px-1 b-1 border-black mt-8" />
+  <RouterView class="container flex-grow mx-auto px-1 b-1 border-black my-8" />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

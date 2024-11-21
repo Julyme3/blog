@@ -7,12 +7,11 @@ import type { PostUpdateDto } from '@/shared/types/posts'
 
 const router = useRouter()
 
-const { getPosts, createPost } = usePostsStore()
+const { createPost } = usePostsStore()
 
 const handleCreatePost = async (post: PostUpdateDto) => {
   await createPost(post)
 
-  getPosts()
   router.push({ path: `/${PAGE_POSTS_LIST}` })
 }
 </script>

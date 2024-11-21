@@ -6,17 +6,16 @@ import { BaseButton } from '@/shared/ui/BaseButton'
 import { ButtonTypesEnum } from '@/shared/ui/BaseButton/types'
 import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { TrashIcon } from '@heroicons/vue/24/outline'
-import type { Post } from '@/shared/types/posts'
-import { PAGE_POST_CREATE } from '@/shared/constants'
+import { PAGE_POST_CREATE, PAGE_POST_EDIT } from '@/shared/constants'
 
 const router = useRouter()
 
-const { setCurrentPost } = usePostsStore()
+const { deletePost, filteredPostsById } = usePostsStore()
 const { posts } = storeToRefs(usePostsStore())
 
-const handleEditBtn = (id: Post['id']) => {
-  const currentPost = posts.value.find((post) => post.id === id)!
-  setCurrentPost(currentPost)
+const handleDeleteBtn = async (id: number) => {
+  await deletePost(id)
+  filteredPostsById(id)
 }
 </script>
 
@@ -44,10 +43,13 @@ const handleEditBtn = (id: Post['id']) => {
           <td class="border p-4">{{ post.body }}</td>
           <td class="border p-4">
             <div class="flex gap-2">
-              <BaseButton :type="ButtonTypesEnum.Neutral" @click="handleEditBtn(post.id)">
+              <BaseButton
+                :type="ButtonTypesEnum.Neutral"
+                @click="router.push({ path: `/${PAGE_POST_EDIT}/${post.id}` })"
+              >
                 <PencilSquareIcon class="w-[20px]" />
               </BaseButton>
-              <BaseButton :type="ButtonTypesEnum.Neutral">
+              <BaseButton :type="ButtonTypesEnum.Neutral" @click="handleDeleteBtn(post.id)">
                 <TrashIcon class="w-[20px]" />
               </BaseButton>
             </div>

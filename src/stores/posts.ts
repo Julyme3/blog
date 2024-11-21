@@ -8,13 +8,24 @@ const API_URL = 'https://jsonplaceholder.typicode.com' //import.meta.env.VUE_APP
 export const usePostsStore = defineStore('postsStore', () => {
   const posts = ref<Array<Post>>([])
   const isLoading = ref(false)
-  const currentPost = ref<Post | null>(null)
 
   async function getPosts(): Promise<Array<Post> | void> {
     isLoading.value = true
 
     try {
-      posts.value = await axios.get(`${API_URL}/posts?_page=0&_limit=10`).then((res) => res.data)
+      posts.value = await axios.get(`${API_URL}/posts`).then((res) => res.data)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  async function getPost(id: string): Promise<Post | void> {
+    isLoading.value = true
+
+    try {
+      return axios.get(`${API_URL}/posts/${id}`).then((res) => res.data)
     } catch (e) {
       console.log(e)
     } finally {
@@ -26,7 +37,7 @@ export const usePostsStore = defineStore('postsStore', () => {
     isLoading.value = true
 
     try {
-      axios.post(`${API_URL}/posts`, post).then((res) => res.data)
+      return axios.post(`${API_URL}/posts`, post)
     } catch (e) {
       console.log(e)
     } finally {
@@ -34,14 +45,41 @@ export const usePostsStore = defineStore('postsStore', () => {
     }
   }
 
-  function setCurrentPost(post: Post): void {
-    currentPost.value = post
+  async function updatePost(post: PostUpdateDto, id: string): Promise<Post | void> {
+    isLoading.value = true
+
+    try {
+      return axios.put(`${API_URL}/posts/${id}`, post)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  async function deletePost(id: string | number): Promise<Post | void> {
+    isLoading.value = true
+
+    try {
+      return axios.delete(`${API_URL}/posts/${id}`)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  function filteredPostsById(id: Post['id']) {
+    posts.value = posts.value.filter((post) => post.id !== id)
   }
 
   return {
     getPosts,
-    posts,
-    setCurrentPost,
     createPost,
+    getPost,
+    updatePost,
+    deletePost,
+    filteredPostsById,
+    posts,
   }
 })

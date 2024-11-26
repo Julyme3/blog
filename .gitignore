@@ -16,6 +16,8 @@ coverage
 package-lock.json
 yarn.lock
 *.local
+.env
+.env.development
 
 /cypress/videos/
 /cypress/screenshots/

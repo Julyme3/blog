@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import PostForm from '@/components/PostForm.vue'
 import { usePostsStore } from '@/stores/posts'
 import { PAGE_POSTS_LIST } from '@/shared/constants'
-import type { PostUpdateDto } from '@/shared/types/posts'
+import type { PostUpdateDto } from '@/shared/services/posts/types'
 
 const router = useRouter()
 

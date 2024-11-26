@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { BaseButton } from '@/shared/ui/BaseButton'
 import { ButtonTypesEnum } from '@/shared/ui/BaseButton/types'
-import type { Post, PostUpdateDto } from '@/shared/types/posts'
+import type { Post, PostUpdateDto } from '@/shared/services/posts/types'
 
 const props = defineProps<{
   post?: Post | null
@@ -14,6 +14,14 @@ const body = ref('')
 const emit = defineEmits<{
   submit: [PostUpdateDto]
 }>()
+
+const isDirtyForm = computed(() => {
+  return title.value !== props.post?.title || body.value !== props.post?.body
+})
+
+const isDisabledSubmit = computed(
+  () => !isDirtyForm.value || (title.value.trim() === '' && body.value.trim() === ''),
+)
 
 const submit = async () => {
   emit('submit', { title: title.value, body: body.value })
@@ -29,7 +37,7 @@ watchEffect(() => {
   <form class="flex flex-col gap-8 border-t bg-white p-4" @submit.prevent="submit">
     <div>
       <label for="title">Title</label>
-      // TODO replaced to shared/ui
+      <!--       TODO replaced to shared/ui-->
       <input
         v-model="title"
         id="title"
@@ -47,11 +55,7 @@ watchEffect(() => {
         rows="5"
       />
     </div>
-    <BaseButton
-      :type="ButtonTypesEnum.Primary"
-      class="w-fit"
-      :disabled="title.trim() === '' && body.trim() === ''"
-    >
+    <BaseButton :type="ButtonTypesEnum.Primary" class="w-fit" :disabled="isDisabledSubmit">
       Save Post
     </BaseButton>
   </form>

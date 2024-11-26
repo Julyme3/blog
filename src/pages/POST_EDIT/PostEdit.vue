@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import PostForm from '@/components/PostForm.vue'
 import { usePostsStore } from '@/stores/posts'
 import { PAGE_POSTS_LIST } from '@/shared/constants'
-import type { PostUpdateDto, Post } from '@/shared/types/posts'
+import type { PostUpdateDto, Post } from '@/shared/services/posts/types'
 
 const router = useRouter()
 const route = useRoute()
@@ -21,7 +21,7 @@ const handleUpdatePost = async (post: PostUpdateDto) => {
 }
 
 watchEffect(async () => {
-  currentPost.value = (await getPost(postId.value)) ?? null
+  currentPost.value = (await getPost(postId.value)).content
 })
 </script>
 

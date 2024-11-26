@@ -1,71 +1,126 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
-import { type Post, type PostUpdateDto } from '@/shared/types/posts'
-
-const API_URL = 'https://jsonplaceholder.typicode.com' //import.meta.env.VUE_APP_API_URL
+import { API } from '@/shared/services'
+import type { APIResponse } from '@/shared/services/types'
+import type { Post, PostUpdateDto } from '@/shared/services/posts/types'
 
 export const usePostsStore = defineStore('postsStore', () => {
-  const posts = ref<Array<Post>>([])
+  const posts = ref<Post[]>([])
   const isLoading = ref(false)
 
-  async function getPosts(): Promise<Array<Post> | void> {
+  async function getPosts(): Promise<APIResponse<null>> {
     isLoading.value = true
-
     try {
-      posts.value = await axios.get(`${API_URL}/posts`).then((res) => res.data)
-    } catch (e) {
-      console.log(e)
+      const { status, data } = await API.posts.getPosts()
+
+      if (status === 200) {
+        posts.value = data
+
+        return {
+          success: true,
+          content: null,
+        }
+      }
     } finally {
       isLoading.value = false
     }
-  }
 
-  async function getPost(id: string): Promise<Post | void> {
-    isLoading.value = true
-
-    try {
-      return axios.get(`${API_URL}/posts/${id}`).then((res) => res.data)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      isLoading.value = false
+    return {
+      success: false,
+      content: null,
+      status: 400,
     }
   }
 
-  async function createPost(post: PostUpdateDto): Promise<Post | void> {
+  async function getPost(id: string): Promise<APIResponse<Post | null>> {
     isLoading.value = true
 
     try {
-      return axios.post(`${API_URL}/posts`, post)
-    } catch (e) {
-      console.log(e)
+      const { status, data } = await API.posts.getPost(id)
+
+      if (status === 200) {
+        return {
+          success: true,
+          content: data,
+        }
+      }
     } finally {
       isLoading.value = false
     }
-  }
 
-  async function updatePost(post: PostUpdateDto, id: string): Promise<Post | void> {
-    isLoading.value = true
-
-    try {
-      return axios.put(`${API_URL}/posts/${id}`, post)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      isLoading.value = false
+    return {
+      success: false,
+      content: null,
+      status: 400,
     }
   }
 
-  async function deletePost(id: string | number): Promise<Post | void> {
+  async function createPost(post: PostUpdateDto): Promise<APIResponse<Post | null>> {
     isLoading.value = true
 
     try {
-      return axios.delete(`${API_URL}/posts/${id}`)
-    } catch (e) {
-      console.log(e)
+      const { status, data } = await API.posts.createPost(post)
+
+      if (status === 200) {
+        return {
+          success: true,
+          content: data,
+        }
+      }
     } finally {
       isLoading.value = false
+    }
+
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+
+  async function updatePost(post: PostUpdateDto, id: string): Promise<APIResponse<Post | null>> {
+    isLoading.value = true
+
+    try {
+      const { status, data } = await API.posts.updatePost(post, id)
+
+      if (status === 200) {
+        return {
+          success: true,
+          content: data,
+        }
+      }
+    } finally {
+      isLoading.value = false
+    }
+
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+
+  async function deletePost(id: string | number): Promise<APIResponse<Post | null>> {
+    isLoading.value = true
+
+    try {
+      const { status, data } = await API.posts.deletePost(id)
+
+      if (status === 200) {
+        return {
+          success: true,
+          content: data,
+        }
+      }
+    } finally {
+      isLoading.value = false
+    }
+
+    return {
+      success: false,
+      content: null,
+      status: 400,
     }
   }
 

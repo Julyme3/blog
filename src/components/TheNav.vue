@@ -6,11 +6,7 @@ import NavItem from '@/components/NavItem.vue'
 <template>
   <nav>
     <ul class="flex items-center justify-around">
-      <NavItem
-        v-for="(title, path) in NAV_ITEMS"
-        :key="path"
-        :to="`/${path}`"
-      >
+      <NavItem v-for="(title, path) in NAV_ITEMS" :key="path" :path="`/${path}`">
         {{ title }}
       </NavItem>
     </ul>

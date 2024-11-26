@@ -1,14 +1,12 @@
 <script setup lang="ts">
-defineOptions({
-  inheritAttrs: false,
-})
+defineProps<{
+  path: string
+}>()
 </script>
 
 <template>
   <li>
-    <router-link :to="$attrs.to"
-      class="p-2 text capitalize"
-    >
+    <router-link :to="path" class="p-2 text capitalize">
       <slot></slot>
     </router-link>
   </li>

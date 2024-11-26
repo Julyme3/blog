@@ -17,6 +17,7 @@ const router = createRouter({
     POST_CREATE_ROUTE,
     POST_EDIT_ROUTE,
   ],
+  linkActiveClass: 'underline',
 })
 
 export default router

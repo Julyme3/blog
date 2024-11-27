@@ -2,6 +2,9 @@
 
 Mini Blog app using fake api JsonPlaceholder.
 
+# Live demo
+https://julyme3.github.io/blog/
+
 ## Stack
 Vue 3, Typescript, Tailwindcss
 

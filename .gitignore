@@ -13,7 +13,6 @@ public
 dist
 dist-ssr
 coverage
-package-lock.json
 yarn.lock
 *.local
 .env

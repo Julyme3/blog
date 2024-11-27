@@ -18,6 +18,8 @@ yarn.lock
 *.local
 .env
 .env.development
+vite.config.ts
+src/vite-env.d.ts
 
 /cypress/videos/
 /cypress/screenshots/
